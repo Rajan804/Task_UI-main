@@ -1,0 +1,208 @@
+
+
+body{
+	background-color : #f3f4f6
+}
+
+h1{
+	color : black;
+    text-align : center ;
+}
+h2 {
+    font-family: sans-serif;
+    font-size: 1.5em;
+    text-transform: uppercase;
+}
+
+strong {
+    font-weight: 700;
+    background-color: yellow;
+}
+
+p {
+    font-family: sans-serif;
+}
+
+.Card{
+	width : 75%;
+	font-family: sans-serif;
+	border: 4px solid ;
+	border-radius : 10px;
+	padding : 19px;
+	margin : auto;
+	background: white;
+	box-shadow : 0 4px 8px rgba(0,0,0,0.1);
+	border-image : linear-gradient(45deg,#ff6ec4,#7873f5) 1;
+	
+}
+
+.Container{
+	display : flex;
+	flex-direction : column;
+	align-items: cemter ;
+	justify-content : center;
+}
+
+.inputField{
+	margin : 2px;
+	padding : 10px;
+	width: 40%;
+	outline:none;
+	border-radius: 5px;
+	transition: border-color 0.3s;
+	
+}
+
+.form-row{
+	display: flex;
+	justify-content:space-between;
+	margin-bottom : 28px;
+}
+.form-group{
+	flex:1;
+	margin-right : 10px;
+}
+#description{
+	
+	width: 89%;
+}
+
+#endDate{
+	width: 39%;
+}
+
+#endAt{
+	width: 92%;
+}
+#category{
+	width: 92%;
+}
+#location{
+	width: 91%;
+}
+#organisation{
+	width: 60%;
+}
+.form-submit{
+	display: flex;
+	flex-direction : row;
+	justify-content: center;
+	align-items:center;
+}
+.btn{
+     width: 80px;
+	 font-size : 1 rem;
+	background-color:#7873f5;
+	color:white;
+	border:none;
+	border-radius:5px;
+	transition: background-color 0.3s;
+}
+#submitbtn{
+	padding : 5px;
+	margin: 8px ;
+}
+#clearbtn{
+	padding : 5px;
+	margin :2px;
+}
+#viewTasksbtn{
+	padding : 5px;
+	margin-left : 5px;
+}
+.btn:hover{
+	 background-color: #5a56d6;
+	 cursor:pointer;
+}
+
+.task-list {
+            margin-top: 30px;
+            width: 90%;
+            max-width: 800px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .task-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: 2px solid #ddd;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .task-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .task-card h3 {
+            margin: 0 0 10px;
+            color: #333;
+        }
+
+        .task-card p {
+            margin: 5px 0;
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        .task-card button {
+            background-color: #ff6363;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .task-card button:hover {
+            background-color: #e55252;
+        }
+		
+		
+		.task-card {
+		           margin-bottom: 20px;
+		           border: 1px solid #ddd;
+		           border-radius: 8px;
+		           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		           transition: transform 0.2s;
+		       }
+		       .task-card:hover {
+		           transform: translateY(-5px);
+		           box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+		       }
+		       .task-header {
+		           background-color: #f8f9fa;
+		           padding: 15px;
+		           border-bottom: 1px solid #ddd;
+		           border-radius: 8px 8px 0 0;
+		       }
+		       .task-body {
+		           padding: 15px;
+		       }
+		       .task-footer {
+		           background-color: #f8f9fa;
+		           padding: 10px 15px;
+		           border-top: 1px solid #ddd;
+		           border-radius: 0 0 8px 8px;
+		       }
+		       .badge {
+		           font-size: 0.9em;
+		           padding: 5px 10px;
+		       }
+		       .priority-high {
+		           background-color: #dc3545;
+		           color: white;
+		       }
+		       .priority-medium {
+		           background-color: #ffc107;
+		           color: black;
+		       }
+		       .priority-low {
+		           background-color: #28a745;
+		           color: white;
+		       }

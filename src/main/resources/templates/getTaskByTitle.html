@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task List</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #8b5cf6;
+            --primary-dark: #7c3aed;
+            --primary-light: #c4b5fd;
+            --accent: #d946ef;
+            --bg-light: #f5f3ff;
+            --text-dark: #1f2937;
+            --text-light: #f9fafb;
+            --shadow: 0 8px 24px rgba(139, 92, 246, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        h1 {
+            color: var(--primary-dark);
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .col-md-6 {
+            width: 100%;
+            padding: 15px;
+        }
+
+        @media (min-width: 768px) {
+            .col-md-6 {
+                width: 50%;
+            }
+        }
+
+        .task-card {
+            position: relative;
+            background-color: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .task-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(139, 92, 246, 0.25);
+        }
+
+        .task-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+        }
+
+        .task-header {
+            padding: 1.5rem;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .card-title {
+            color: var(--primary-dark);
+            font-size: 1.3rem;
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .task-body {
+            padding: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .card-text {
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .list-unstyled {
+            list-style: none;
+        }
+
+        .list-unstyled li {
+            margin-bottom: 0.8rem;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.35em 0.65em;
+            font-size: 0.85em;
+            font-weight: 700;
+            line-height: 1;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: 6px;
+        }
+
+        .badge.bg-secondary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .badge.bg-info {
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+        }
+
+        .priority-high {
+            background-color: #ef4444;
+            color: white;
+        }
+
+        .priority-medium {
+            background-color: #f59e0b;
+            color: black;
+        }
+
+        .priority-low {
+            background-color: #10b981;
+            color: white;
+        }
+
+        .task-footer {
+            padding: 1rem 1.5rem;
+            background-color: #f8f9fa;
+            border-top: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .btn {
+            padding: 0.6rem 1.2rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-align: center;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+
+        .btn-outline-secondary {
+            background-color: white;
+            color: var(--primary);
+            border: 2px solid var(--primary-light);
+        }
+
+        .btn-outline-secondary:hover {
+            background-color: var(--bg-light);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+        
+        .home-link {
+            display: inline-block;
+            margin: 1.5rem auto;
+            text-align: center;
+            width: 100%;
+            color: var(--primary-dark);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .home-link:hover {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+        
+      
+        
+          .inputBox {
+            flex: 1;
+            display: inline;
+            text-align: left;
+            padding: 6px;
+            width: 30px;
+            height: 17px;
+            background: transparent;
+            border: 0;
+            outline: 0;
+            font-size: 1rem;
+            color: #333;
+
+        }
+
+        ::placeholder {
+            font-size: 0.7rem;
+            color: #555;
+        }
+
+        .searchBtn {
+            background-color: transparent;
+            border: 0;
+            outline: 0;
+            cursor: pointer;
+        }
+
+        .Row {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            background-color: white;
+            position: absolute;
+            left: 45%;
+            height: 25px;
+            width: 160px;
+            border: 2px solid black;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Search Tasks by Title</h1>
+    
+    <div class="Row" id="Row"> <input type="text" class="inputBox" id="title" required
+                            placeholder="Search Title" onclick="displaySearchSection()"><button class="searchBtn"
+                            onclick="searchByTitle()"><i class=" fa fa-search"></i></button></div>
+
+ <br>
+    <div class="container mt-6">
+        <div class="row">
+           
+            <div th:each="task : ${tasks}" class="col-md-6">
+                <div class="task-card">
+                    <div class="task-header">
+                        <h5 th:text="${task.title}" class="card-title"></h5>
+                    </div>
+                    <div class="task-body">
+                        <p th:text="${task.description}" class="card-text"></p>
+                        <ul class="list-unstyled">
+                            <li><strong>Status:</strong> <span th:text="${task.status}" class="badge bg-secondary"></span></li>
+                            <li><strong>Priority:</strong>
+                                <span th:if="${task.priority == 'HIGH'}" class="badge priority-high">High</span>
+                                <span th:if="${task.priority == 'MEDIUM'}" class="badge priority-medium">Medium</span>
+                                <span th:if="${task.priority == 'LOW'}" class="badge priority-low">Low</span>
+                            </li>
+                            <li><strong>Event Date:</strong> <span th:text="${#temporals.format(task.eventDate, 'dd MMM yyyy')}"></span></li>
+                            <li><strong>End Date:</strong> <span th:text="${#temporals.format(task.endDate, 'dd MMM yyyy')}"></span></li>
+                            <li><strong>Category:</strong> <span th:text="${task.category}" class="badge bg-info"></span></li>
+                            <li><strong>Location:</strong> <span th:text="${task.location}"></span></li>
+                        </ul>
+                    </div>
+                    <div class="task-footer">
+                        <a href="#" class="btn btn-primary">Sign Up</a>
+                        <a href="#" class="btn btn-outline-secondary">Save Task</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a class="home-link" th:href="@{/}">
+        <i class="fas fa-home"></i> Return to Home
+    </a>
+    <script >
+     function searchByTitle() {
+            let title = document.getElementById("title").value;
+            if (title) {
+                window.location.href = "/getTaskByTitle/" + encodeURIComponent(title);
+            }
+        }
+        const imgurls = {
+        environment : " ",
+        health : " ",
+        
+        }
+        
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+</body>
+
+</html>

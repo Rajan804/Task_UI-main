@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Create New Task</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #8b5cf6;
+        --primary-dark: #7c3aed;
+        --primary-light: #c4b5fd;
+        --accent: #d946ef;
+        --bg-light: #f5f3ff;
+        --text-dark: #1f2937;
+        --text-light: #f9fafb;
+        --shadow: 0 8px 24px rgba(139, 92, 246, 0.1);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+        min-height: 100vh;
+        padding: 2rem 1rem;
+      }
+
+      h1 {
+        color: var(--primary-dark);
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        font-weight: 700;
+        letter-spacing: -0.5px;
+      }
+
+      .card-container {
+        width: 90%;
+        max-width: 1000px;
+        margin: 2rem auto;
+        position: relative;
+      }
+
+      .gradient-bg {
+        position: absolute;
+        inset: -5px;
+        background: linear-gradient(to right, #8b5cf6, #d946ef, #a855f7);
+        filter: blur(10px);
+        opacity: 0.3;
+        border-radius: 20px;
+        z-index: 0;
+      }
+
+      .card-content {
+        position: relative;
+        background-color: white;
+        padding: 2.5rem;
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+        z-index: 1;
+      }
+
+      .form-header {
+        text-align: center;
+        margin-bottom: 2.5rem;
+        color: var(--primary-dark);
+      }
+
+      .form-row {
+        display: flex;
+        flex-wrap: wrap;
+        margin-bottom: 1.5rem;
+        gap: 1.5rem;
+      }
+
+      .form-group {
+        flex: 1;
+        min-width: 250px;
+      }
+
+      label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: var(--text-dark);
+        font-size: 0.95rem;
+      }
+
+      .inputField {
+        width: 100%;
+        padding: 0.8rem 1rem;
+        border: 2px solid var(--primary-light);
+        border-radius: 8px;
+        transition: all 0.3s;
+        font-size: 1rem;
+        color: var(--text-dark);
+        background-color: var(--bg-light);
+      }
+
+      .inputField:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+      }
+
+      .inputField::placeholder {
+        color: #a1a1aa;
+      }
+
+      select.inputField {
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238b5cf6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 1rem center;
+        padding-right: 2.5rem;
+        cursor: pointer;
+      }
+
+      .submit-container {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-top: 2rem;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        min-width: 120px;
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+        font-weight: 600;
+        text-align: center;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+
+      #submitbtn {
+        background-color: var(--primary);
+        color: white;
+      }
+
+      #submitbtn:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+      }
+
+      #clearbtn {
+        background-color: white;
+        color: var(--primary);
+        border: 2px solid var(--primary-light);
+      }
+
+      #clearbtn:hover {
+        background-color: var(--bg-light);
+        border-color: var(--primary);
+        transform: translateY(-2px);
+      }
+
+      #viewTasksbtn {
+        background-color: var(--accent);
+        color: white;
+      }
+
+      #viewTasksbtn:hover {
+        opacity: 0.9;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(217, 70, 239, 0.2);
+      }
+
+      .home-link {
+        display: inline-block;
+        margin: 1.5rem auto;
+        text-align: center;
+        width: 100%;
+        color: var(--primary-dark);
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s;
+      }
+
+      .home-link:hover {
+        color: var(--accent);
+        text-decoration: underline;
+      }
+
+      .message {
+        text-align: center;
+        padding: 1rem;
+        margin-top: 1rem;
+        border-radius: 8px;
+        background-color: var(--primary-light);
+        color: var(--primary-dark);
+        font-weight: 600;
+      }
+
+      input[type="date"] {
+        cursor: pointer;
+        position: relative;
+      }
+
+      @media (max-width: 768px) {
+        .card-content {
+          padding: 1.5rem;
+        }
+
+        .form-row {
+          flex-direction: column;
+          gap: 1rem;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Create New Task</h1>
+
+    <div class="card-container">
+      <div class="gradient-bg"></div>
+      <div class="card-content">
+        <h2 class="form-header">Engage Volunteers, Make an Impact</h2>
+
+        <form
+          id="taskForm"
+          th:action="@{/addTask}"
+          th:object="${task}"
+          method="post"
+          >
+          <label for="orgId">Organization ID:</label>
+          <input type="number" id="orgId" name="orgId" th:value="${orgId}" required />
+          <div class="form-row">
+            <div class="form-group">
+              <label for="title"><i class="fas fa-heading"></i> Title</label>
+              <input
+                type="text"
+                name="title"
+                class="inputField"
+                id="title"
+                placeholder="Enter task title"
+              />
+              <div th:if="${#fields.hasErrors('title')}" th:text="${#fields.errors('title')[0]}" class="text-danger mt-1"></div>
+            </div>
+
+            <div class="form-group">
+              <label for="description"
+                ><i class="fas fa-align-left"></i> Description</label
+              >
+              <input
+                type="text"
+                name="description"
+                class="inputField"
+                id="description"
+                placeholder="What needs to be done?"
+              />
+              <div th:if="${#fields.hasErrors('description')}" th:text="${#fields.errors('description')[0]}" class="text-danger mt-1"></div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="status"><i class="fas fa-tasks"></i> Status</label>
+              <input
+                type="text"
+                name="status"
+                value="PENDING"
+                readonly
+                class="inputField"
+              />
+              <div th:if="${#fields.hasErrors('status')}" th:text="${#fields.errors('status')[0]}" class="text-danger mt-1"></div>
+            </div>
+
+            <div class="form-group">
+              <label for="priority"><i class="fas fa-flag"></i> Priority</label>
+              <select name="priority" class="inputField" id="priority">
+                <option value="" selected>Select priority</option>
+                <option value="LOW">LOW</option>
+                <option value="MEDIUM">MEDIUM</option>
+                <option value="HIGH">HIGH</option>
+              </select>
+              <div th:if="${#fields.hasErrors('priority')}" th:text="${#fields.errors('priority')[0]}" class="text-danger mt-1"></div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="eventDate"
+                ><i class="fas fa-calendar-day"></i> Start Date</label
+              >
+              <input
+                type="date"
+                name="eventDate"
+                class="inputField"
+                id="eventDate"
+              />
+              <div th:if="${#fields.hasErrors('eventDate')}" th:text="${#fields.errors('eventDate')[0]}" class="text-danger mt-1"></div>
+            </div>
+
+            <div class="form-group">
+              <label for="endDate"
+                ><i class="fas fa-calendar-check"></i> End Date</label
+              >
+              <input
+                type="date"
+                name="endDate"
+                class="inputField"
+                id="endDate"
+              />
+              <div th:if="${#fields.hasErrors('endDate')}" th:text="${#fields.errors('endDate')[0]}" class="text-danger mt-1"></div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="category"
+                ><i class="fas fa-folder"></i> Category</label
+              >
+              <select name="category" class="inputField" id="category">
+                <option value="" selected>Select category</option>
+                <option value="EDUCATION">EDUCATION</option>
+                <option value="HEALTH">HEALTH</option>
+                <option value="ENVIRONMENT">ENVIRONMENT</option>
+              </select>
+              <div th:if="${#fields.hasErrors('category')}" th:text="${#fields.errors('category')[0]}" class="text-danger mt-1"></div>
+            </div>
+
+            <div class="form-group">
+              <label for="location"
+                ><i class="fas fa-map-marker-alt"></i> Location</label
+              >
+              <input
+                type="text"
+                name="location"
+                class="inputField"
+                id="location"
+                placeholder="Where will this take place?"
+              />
+              <div th:if="${#fields.hasErrors('location')}" th:text="${#fields.errors('location')[0]}" class="text-danger mt-1"></div>
+            </div>
+          </div>
+
+          <div class="submit-container">
+            <button class="btn" id="submitbtn" type="submit">
+              <i class="fas fa-save"></i> Save Task
+            </button>
+
+            <button><i class="fas fa-undo"></i> Clear Form</button>
+
+            <button class="btn" id="viewTasksbtn">
+              <i class="fas fa-list"></i> View Tasks
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <a class="home-link" th:href="@{/}">
+      <i class="fas fa-home"></i> Return to Home
+    </a>
+
+    <div th:if="${message}" class="message">
+      <p th:text="${message}"></p>
+    </div>
+
+    <!-- <script>
+      // Add today's date as the default for date inputs
+      document.addEventListener("DOMContentLoaded", function () {
+        const today = new Date().toISOString().split("T")[0];
+        document.getElementById("eventDate").min = today;
+        document.getElementById("endDate").min = today;
+
+        // Make sure end date can't be before start date
+        document
+          .getElementById("eventDate")
+          .addEventListener("change", function () {
+            document.getElementById("endDate").min = this.value;
+          });
+      });
+    </script> -->
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("taskForm");
+    
+        form.addEventListener("submit", function (event) {
+          let isValid = true;
+          clearErrors();
+    
+          // Title Validation
+          const title = document.getElementById("title");
+          if (title.value.trim().length < 3 || title.value.trim().length > 100) {
+            showError(title, "Title must be between 3 and 100 characters.");
+            isValid = false;
+          }
+    
+          // Description Validation
+          const description = document.getElementById("description");
+          if (description.value.trim() === "") {
+            showError(description, "Description cannot be empty.");
+            isValid = false;
+          }
+    
+          // Priority Validation
+          const priority = document.getElementById("priority");
+          if (priority.value === "") {
+            showError(priority, "Please select a priority.");
+            isValid = false;
+          }
+    
+          // Category Validation
+          const category = document.getElementById("category");
+          if (category.value === "") {
+            showError(category, "Please select a category.");
+            isValid = false;
+          }
+    
+          // Location Validation
+          const location = document.getElementById("location");
+          if (location.value.trim().length < 2) {
+            showError(location, "Location must be at least 2 characters.");
+            isValid = false;
+          }
+    
+          // Date Validation
+          const startDate = document.getElementById("eventDate");
+          const endDate = document.getElementById("endDate");
+    
+          if (startDate.value === "") {
+            showError(startDate, "Please select a start date.");
+            isValid = false;
+          }
+    
+          if (endDate.value === "") {
+            showError(endDate, "Please select an end date.");
+            isValid = false;
+          } else if (startDate.value && endDate.value && startDate.value > endDate.value) {
+            showError(endDate, "End date cannot be before start date.");
+            isValid = false;
+          }
+    
+          // Prevent form submission if there are errors
+          if (!isValid) {
+            event.preventDefault();
+          }
+        });
+    
+        // Function to show error messages
+        function showError(input, message) {
+          const errorDiv = document.createElement("div");
+          errorDiv.className = "error-message";
+          errorDiv.style.color = "red";
+          errorDiv.style.fontSize = "0.9rem";
+          errorDiv.style.marginTop = "5px";
+          errorDiv.textContent = message;
+          input.parentNode.appendChild(errorDiv);
+          input.style.borderColor = "red";
+        }
+    
+        // Function to clear previous errors
+        function clearErrors() {
+          document.querySelectorAll(".error-message").forEach((e) => e.remove());
+          document.querySelectorAll(".inputField").forEach((e) => (e.style.borderColor = ""));
+        }
+      });
+    </script>
+    
+  </body>
+</html>
+
+<!-- <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Create New Task</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #8b5cf6;
+        --primary-dark: #7c3aed;
+        --primary-light: #c4b5fd;
+        --accent: #d946ef;
+        --bg-light: #f5f3ff;
+        --text-dark: #1f2937;
+        --text-light: #f9fafb;
+        --shadow: 0 8px 24px rgba(139, 92, 246, 0.1);
+      }
+      
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+        min-height: 100vh;
+        padding: 2rem 1rem;
+      }
+
+      h1 {
+        color: var(--primary-dark);
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .card-container {
+        width: 90%;
+        max-width: 1000px;
+        margin: 2rem auto;
+      }
+
+      .card-content {
+        background-color: white;
+        padding: 2.5rem;
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: var(--text-dark);
+      }
+
+      .inputField {
+        width: 100%;
+        padding: 0.8rem 1rem;
+        border: 2px solid var(--primary-light);
+        border-radius: 8px;
+      }
+
+      .submit-container {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-top: 2rem;
+      }
+    </style>
+  </head>
+  
+  <body>
+    <h1>Create New Task</h1>
+    
+    <div class="card-container">
+      <div class="card-content">
+        <form id="taskForm" th:action="@{/addTask}" th:object="${task}" method="post">
+          
+          <div class="form-group">
+            <label for="orgId"><i class="fas fa-building"></i> Select Organization</label>
+            <select name="orgId" class="inputField" id="orgId" required>
+              <option value="">Select Organization</option>
+              <option th:each="org : ${organizations}" th:value="${org.id}" th:text="${org.name}"></option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" name="title" class="inputField" id="title" placeholder="Enter task title" required />
+          </div>
+          
+          <div class="form-group">
+            <label for="description">Description</label>
+            <input type="text" name="description" class="inputField" id="description" placeholder="Task description" required />
+          </div>
+          
+          <div class="form-group">
+            <label for="priority">Priority</label>
+            <select name="priority" class="inputField" id="priority" required>
+              <option value="">Select priority</option>
+              <option value="LOW">LOW</option>
+              <option value="MEDIUM">MEDIUM</option>
+              <option value="HIGH">HIGH</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="eventDate">Start Date</label>
+            <input type="date" name="eventDate" class="inputField" id="eventDate" required />
+          </div>
+          
+          <div class="form-group">
+            <label for="endDate">End Date</label>
+            <input type="date" name="endDate" class="inputField" id="endDate" required />
+          </div>
+          
+          <div class="submit-container">
+            <button type="submit" class="btn" id="submitbtn">Save Task</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const today = new Date().toISOString().split("T")[0];
+        document.getElementById("eventDate").min = today;
+        document.getElementById("endDate").min = today;
+
+        document.getElementById("eventDate").addEventListener("change", function () {
+          document.getElementById("endDate").min = this.value;
+        });
+      });
+    </script>
+  </body>
+</html> -->

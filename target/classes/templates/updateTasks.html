@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Update Task</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-light: #c7d2fe;
+            --accent: #f97316;
+            --bg-light: #eef2ff;
+            --text-dark: #1e293b;
+            --text-light: #f8fafc;
+            --shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: var(--bg-light);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .card-container {
+            background: white;
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        h1 {
+            color: var(--primary-dark);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            text-align: left;
+            margin-bottom: 1.2rem;
+        }
+
+        label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .inputField {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--primary-light);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+
+        .inputField:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+        }
+
+        .submit-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            flex: 1;
+            margin: 0 0.5rem;
+            padding: 0.8rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        #submitbtn {
+            background: var(--primary);
+            color: white;
+        }
+
+        #submitbtn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        #viewTasksbtn {
+            background: var(--accent);
+            color: white;
+        }
+
+        #viewTasksbtn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 600px) {
+            .submit-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="card-container">
+        <h1>Update Task</h1>
+        <form id="updateTaskForm" th:action="@{/updateTask/{id}(id=${task.id})}" th:object="${task}" method="post">
+            <input type="hidden" name="_method" value="put" /> <!-- Force PUT request -->
+            <input type="hidden" name="id" th:value="*{id}">
+            
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" class="inputField" id="title" th:field="*{title}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="description">Description</label>
+                <input type="text" class="inputField" id="description" th:field="*{description}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="status">Status</label>
+                <select class="inputField" id="status" th:field="*{status}" required>
+                    <option value="PENDING">PENDING</option>
+                    <option value="IN_PROGRESS">IN PROGRESS</option>
+                    <option value="COMPLETED">COMPLETED</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="priority">Priority</label>
+                <select class="inputField" id="priority" th:field="*{priority}" required>
+                    <option value="LOW">LOW</option>
+                    <option value="MEDIUM">MEDIUM</option>
+                    <option value="HIGH">HIGH</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="eventDate">Start Date</label>
+                <input type="date" class="inputField" id="eventDate" th:field="*{eventDate}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="endDate">End Date</label>
+                <input type="date" class="inputField" id="endDate" th:field="*{endDate}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="location">Location</label>
+                <input type="text" class="inputField" id="location" th:field="*{location}" required>
+            </div>
+            
+            <div class="submit-container">
+                <button class="btn" id="submitbtn" type="submit">Update Task</button>
+                <button class="btn" id="viewTasksbtn" type="button" th:onclick="|window.location.href='/viewAlltasks'|">View Tasks</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
