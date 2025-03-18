@@ -238,18 +238,18 @@ public String searchByLocation(@PathVariable String location, Model model) {
         return "getTaskByDate";
     }
 
-    @GetMapping("/searchTasks")
-    public String searchTasks(Model model) {
-        // Add any necessary logic here
-        return "searchTasks"; // Make sure there is a "searchTasks.html" in templates
-    }
-
-    // @GetMapping("/searchTasksPage")
-    // public String searchTasksPage() {
-    //     return "searchTasks"; // Loads the search form
+    // @GetMapping("/searchTasks")
+    // public String searchTasks(Model model) {
+    //     // Add any necessary logic here
+    //     return "searchTasks"; // Make sure there is a "searchTasks.html" in templates
     // }
 
-    @PostMapping("/searchTasks")
+    @GetMapping("/searchTasksPage")
+    public String searchTasksPage() {
+        return "searchTasks"; // Loads the search page
+    }
+
+    @GetMapping("/searchTasks")
     public String searchTasks(
             @RequestParam(required = false) String title,
             @RequestParam(required = false) String location,

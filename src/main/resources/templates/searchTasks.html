@@ -64,7 +64,98 @@
     <div id="displayCard" class="row" style="margin-top: 50px;"></div>
 
     <script>
-        const searchDropdown = document.getElementById("searchTasks");
+//         const searchDropdown = document.getElementById("searchTasks");
+// const searchDiv = document.getElementById("searchDiv");
+// const searchLabel = document.getElementById("searchFieldLabel");
+// const searchInput = document.getElementById("searchInput");
+// const searchBtn = document.getElementById("searchBtn");
+// const displayCard = document.getElementById("displayCard");
+
+// let entity = "";
+
+// // Show input field based on selected option
+// searchDropdown.addEventListener("change", function () {
+//     if (this.value) {
+//         searchDiv.style.display = "block";
+//         entity = this.value;
+//         searchLabel.textContent = `Enter ${this.options[this.selectedIndex].text}:`;
+//         searchInput.type = entity === "eventDate" ? "date" : "text";
+//         searchInput.value = "";
+//     } else {
+//         searchDiv.style.display = "none";
+//     }
+// });
+
+// // Fetch data from backend
+// searchBtn.addEventListener("click", async () => {
+//     const inputValue = searchInput.value.trim();
+//     if (!inputValue) {
+//         alert("Please enter a value before searching.");
+//         return;
+//     }
+
+//     const queryParam = entity === "eventDate" ? `eventDate=${inputValue}` : `${entity}=${inputValue}`;
+//     const apiUrl = `http://localhost:7777/api/searchTasks?${queryParam}`; // ✅ Updated API endpoint
+
+//     console.log("Fetching:", apiUrl);
+
+//     try {
+//         const response = await fetch(apiUrl, {
+//             method: "GET",
+//             headers: { "Content-Type": "application/json" },
+//         });
+
+//         if (!response.ok) {
+//             throw new Error("No tasks found");
+//         }
+
+//         const data = await response.json();
+//         displayTasks(Array.isArray(data) ? data : [data]);
+//     } catch (error) {
+//         console.error(error);
+//         displayError();
+//     }
+// });
+
+// // Display tasks
+// function displayTasks(tasks) {
+//     displayCard.innerHTML = "";
+
+//     if (tasks.length === 0) {
+//         displayError();
+//         return;
+//     }
+
+//     tasks.forEach(task => {
+//         const taskCard = document.createElement("div");
+//         taskCard.className = "task-card";
+//         taskCard.innerHTML = `
+//             <h3>${task.title}</h3>
+//             <p>${task.description}</p>
+//             <ul>
+//                 <li><strong>Status:</strong> ${task.status}</li>
+//                 <li><strong>Priority:</strong> 
+//                     <span class="${task.priority === 'HIGH' ? 'priority-high' : task.priority === 'MEDIUM' ? 'priority-medium' : 'priority-low'}">${task.priority}</span>
+//                 </li>
+//                 <li><strong>Event Date:</strong> ${new Date(task.eventDate).toLocaleDateString()}</li>
+//                 <li><strong>End Date:</strong> ${new Date(task.endDate).toLocaleDateString()}</li>
+//                 <li><strong>Category:</strong> ${task.category}</li>
+//                 <li><strong>Location:</strong> ${task.location}</li>
+//             </ul>
+//             <div class="task-footer">
+//                 <button class="btn btn-primary">Sign Up</button>
+//                 <button class="btn btn-outline-secondary">Save Task</button>
+//             </div>
+//         `;
+//         displayCard.appendChild(taskCard);
+//     });
+// }
+
+// // Display error message
+// function displayError() {
+//     displayCard.innerHTML = `<div class="errDiv">No tasks available for the selected criteria.</div>`;
+// }
+const searchDropdown = document.getElementById("searchTasks");
 const searchDiv = document.getElementById("searchDiv");
 const searchLabel = document.getElementById("searchFieldLabel");
 const searchInput = document.getElementById("searchInput");
@@ -95,7 +186,7 @@ searchBtn.addEventListener("click", async () => {
     }
 
     const queryParam = entity === "eventDate" ? `eventDate=${inputValue}` : `${entity}=${inputValue}`;
-    const apiUrl = `http://localhost:7777/api/searchTasks?${queryParam}`; // ✅ Updated API endpoint
+    const apiUrl = `http://localhost:7777/api/searchTasks?${queryParam}`; // ✅ Uses "/api/searchTasks"
 
     console.log("Fetching:", apiUrl);
 
